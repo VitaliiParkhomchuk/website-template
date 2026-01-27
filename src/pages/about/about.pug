@@ -1,0 +1,22 @@
+extends /../index.pug
+
+block variable
+  -
+    var title_page = 'about'
+    var id_page = 'id-page-about'
+
+block meta
+  title= title_page
+  meta(name='description', content='')
+
+block header
+  +header
+
+block content
+  .about About page
+
+block footer
+  include /widgets/footer/footer.pug
+
+block scripts
+  script(type="module" src="/src/pages/about/about.js")

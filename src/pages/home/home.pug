@@ -1,0 +1,20 @@
+extends /../index.pug
+
+block variable
+  - var title_page = 'Головна сторінка'
+
+block meta
+  title= title_page
+  meta(name='description' content='Опис головної сторінки для SEO')
+
+block scripts
+  script(type="module", src='/src/pages/home/home.js')
+
+block header
+  +header
+
+block content
+  .home Home page
+
+block footer
+  include /widgets/footer/footer.pug
