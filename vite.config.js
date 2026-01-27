@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 import pug from "pug";
 import fs from "fs";
-import { resolve, basename } from "path";
+import { resolve, basename, relative, sep } from "path"; // додали relative та sep
 import { glob } from "glob";
 import { iconsSpritesheet } from "vite-plugin-icons-spritesheet";
 
@@ -16,6 +16,33 @@ const virtualModuleMap = Object.keys(entryPoints).reduce((acc, key) => {
   acc[resolve(__dirname, key)] = entryPoints[key];
   return acc;
 }, {});
+
+function injectIncludes(content, includes) {
+  const lines = content.split(/\r?\n/);
+
+  const extendsIndex = lines.findIndex((line) => line.trim().startsWith("extends "));
+
+  if (extendsIndex !== -1) {
+    lines.splice(extendsIndex + 1, 0, includes);
+    return lines.join("\n");
+  } else {
+    return `${includes}\n${content}`;
+  }
+}
+
+function generateAutoIncludes() {
+  const components = glob.sync(["src/widgets/**/*.pug", "src/features/**/*.pug", "src/shared/ui/**/*.pug"]);
+
+  return components
+    .map((filepath) => {
+      const absolutePath = resolve(__dirname, filepath);
+      const relativeToSrc = relative(resolve(__dirname, "src"), absolutePath);
+      const normalizedPath = relativeToSrc.split(sep).join("/");
+
+      return `include /${normalizedPath}`;
+    })
+    .join("\n");
+}
 
 export default defineConfig({
   plugins: [
@@ -35,7 +62,13 @@ export default defineConfig({
       load(id) {
         if (virtualModuleMap[id]) {
           const pugPath = virtualModuleMap[id];
-          return pug.renderFile(pugPath, {
+          const content = fs.readFileSync(pugPath, "utf-8");
+          const autoIncludes = generateAutoIncludes();
+
+          const finalContent = injectIncludes(content, autoIncludes);
+
+          return pug.render(finalContent, {
+            filename: pugPath,
             basedir: resolve(__dirname, "src"),
             pretty: true,
           });
@@ -63,7 +96,13 @@ export default defineConfig({
             }
             for (const filePath of candidates) {
               if (filePath && fs.existsSync(filePath)) {
-                const html = pug.renderFile(filePath, {
+                const content = fs.readFileSync(filePath, "utf-8");
+                const autoIncludes = generateAutoIncludes();
+
+                const finalContent = injectIncludes(content, autoIncludes);
+
+                const html = pug.render(finalContent, {
+                  filename: filePath,
                   basedir: resolve(__dirname, "src"),
                 });
                 const processedHtml = await server.transformIndexHtml(req.url, html);
