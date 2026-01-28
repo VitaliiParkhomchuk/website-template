@@ -3,9 +3,8 @@
 @mixin font-face($font-family, $url, $weight: normal, $style: normal, $asset-pipeline: false) {
   @font-face {
     font-family: "#{$font-family}";
-    font-weight: #{$weight};
     font-style: "#{$style}";
-
+    font-weight: #{$weight};
     src: url("#{$url}.eot");
     src:
       url("#{$url}.eot?#iefix") format("embedded-opentype"),
@@ -17,6 +16,7 @@
 // Function for converting a px based font-size to rem.
 @function rem($size) {
   $remSize: $size / 14px;
+
   @return #{$remSize}rem;
 }
 
@@ -47,32 +47,32 @@ $screen-height: 720;
 }
 
 @mixin tablet() {
-  @media screen and (min-width: 768px) {
+  @media screen and (width >= 768px) {
     @content;
   }
 }
 
 @mixin laptop() {
-  @media screen and (min-width: 1024px) {
+  @media screen and (width >= 1024px) {
     @content;
   }
 }
 
 @mixin desktop() {
-  @media screen and (min-width: 1920px) {
+  @media screen and (width >= 1920px) {
     @content;
   }
 }
 
 @mixin super-title() {
-  font-size: 17vw;
   font-family: $default-font-2;
-  font-weight: 700;
+  font-size: 17vw;
   font-style: normal;
+  font-weight: 700;
   line-height: 70%;
-  text-decoration: none;
   color: $white;
   letter-spacing: -0.06em;
+  text-decoration: none;
 
   @include tablet {
     font-size: 12.5vw;
@@ -84,15 +84,15 @@ $screen-height: 720;
 }
 
 @mixin section-title() {
-  font-size: 24px;
   font-family: $default-font;
-  font-weight: 500;
+  font-size: 24px;
   font-style: normal;
+  font-weight: 500;
   line-height: 80%;
-  text-decoration: none;
-  text-transform: uppercase;
   color: $white;
+  text-transform: uppercase;
   letter-spacing: -0.04em;
+  text-decoration: none;
 
   @include tablet {
     font-size: clamp(32px, calc(32px + (48 - 32) * ((100vw - 768px) / (1366 - 768))), 48px);
@@ -107,8 +107,8 @@ $screen-height: 720;
   font-size: 24px;
   font-weight: 500;
   line-height: 120%;
-  letter-spacing: -0.03em;
   color: $white;
+  letter-spacing: -0.03em;
 
   @include tablet {
     font-size: 32px;
@@ -140,8 +140,8 @@ $screen-height: 720;
   font-size: 16px;
   font-weight: 500;
   line-height: 100%;
-  letter-spacing: -0.03em;
   color: $teal-deep;
+  letter-spacing: -0.03em;
 
   @include tablet {
     font-size: 24px;
@@ -173,13 +173,13 @@ $screen-height: 720;
 // }
 
 @mixin page-subtitle() {
-  font-size: 32px;
   font-family: $default-font;
-  font-weight: 500;
+  font-size: 32px;
   font-style: normal;
+  font-weight: 500;
   line-height: 120%;
-  text-decoration: none;
   letter-spacing: -0.03em;
+  text-decoration: none;
 
   @include tablet {
     // font-size: clamp(48px, calc(48px + (64 - 48) * ((100vw - 768px) / (1366 - 768))), 64px);
@@ -269,14 +269,14 @@ $screen-height: 720;
 // }
 
 @mixin general-text() {
-  font-size: 16px;
   font-family: $default-font;
-  font-weight: 500;
+  font-size: 16px;
   font-style: normal;
+  font-weight: 500;
   line-height: 120%;
-  text-decoration: none;
   text-transform: none;
   letter-spacing: -0.03em;
+  text-decoration: none;
 
   @include tablet {
     font-size: 16px;
@@ -289,14 +289,13 @@ $screen-height: 720;
 }
 
 @mixin tiny-text() {
-  font-size: 14px;
   font-family: $default-font;
-  font-weight: 500;
+  font-size: 14px;
   font-style: normal;
+  font-weight: 500;
   line-height: 100%;
-  text-decoration: none;
-
   letter-spacing: -0.06em;
+  text-decoration: none;
 }
 
 @function vw($px) {
@@ -304,26 +303,26 @@ $screen-height: 720;
 }
 
 @mixin text-12() {
-  color: $teal-deep;
   font-family: $default-font;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
   line-height: 120%;
+  color: $teal-deep;
   letter-spacing: -0.72px;
+  letter-spacing: -0.02em;
   text-decoration-line: underline;
+  text-decoration-thickness: auto;
   text-decoration-style: solid;
   text-decoration-skip-ink: auto;
-  text-decoration-thickness: auto;
-  text-underline-offset: auto;
   text-underline-position: from-font;
-  letter-spacing: -0.02em;
+  text-underline-offset: auto;
 }
 
 @mixin text-24 {
   font-size: 24px;
   font-weight: 600;
   line-height: 120%;
-  letter-spacing: -0.06em;
   color: $teal-deep;
+  letter-spacing: -0.06em;
 }

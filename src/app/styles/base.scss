@@ -2,45 +2,51 @@
 @use "./mixins.scss" as *;
 
 html {
+  height: 100%;
 }
 
 body {
+  height: 100%;
+}
+
+main {
+  height: 100%;
 }
 
 .container {
-  padding-left: 16px;
   padding-right: 16px;
-  margin-left: auto;
+  padding-left: 16px;
   margin-right: auto;
+  margin-left: auto;
 
   @include tablet {
-    padding-left: 24px;
     padding-right: 24px;
+    padding-left: 24px;
   }
 
   @include laptop {
-    padding-left: 40px;
     padding-right: 40px;
+    padding-left: 40px;
   }
 
   @include desktop {
-    padding-left: 40px;
     padding-right: 40px;
-  }
-}
-
-.container--mobile {
-  margin-left: auto;
-  margin-right: auto;
-
-  @include tablet {
-    padding-left: 24px;
-    padding-right: 24px;
+    padding-left: 40px;
   }
 
-  @include laptop {
-    padding-left: 30px;
-    padding-right: 30px;
+  &--mobile {
+    margin-right: auto;
+    margin-left: auto;
+
+    @include tablet {
+      padding-right: 24px;
+      padding-left: 24px;
+    }
+
+    @include laptop {
+      padding-right: 30px;
+      padding-left: 30px;
+    }
   }
 }
 

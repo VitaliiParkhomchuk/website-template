@@ -4,6 +4,7 @@ import fs from "fs";
 import { resolve, basename, relative, sep } from "path"; // додали relative та sep
 import { glob } from "glob";
 import { iconsSpritesheet } from "vite-plugin-icons-spritesheet";
+import { exec } from "child_process";
 
 const entryPoints = glob.sync(["index.pug", "src/pages/**/*.pug"]).reduce((acc, path) => {
   const name = basename(path, ".pug");
@@ -51,6 +52,31 @@ export default defineConfig({
       outputDir: "./public",
       fileName: "icons.svg",
     }),
+    {
+      name: "vite-plugin-auto-build",
+      apply: "serve",
+      configureServer(server) {
+        let isBuilding = false;
+
+        server.watcher.on("change", (file) => {
+          if (file.includes("dist")) return;
+
+          if (!isBuilding) {
+            isBuilding = true;
+            console.log("🔄 File changed, rebuilding dist...");
+
+            exec("npm run build", (err, stdout, stderr) => {
+              if (err) {
+                console.error("❌ Build error:", stderr);
+              } else {
+                console.log("✅ Build complete!");
+              }
+              isBuilding = false;
+            });
+          }
+        });
+      },
+    },
     {
       name: "vite-plugin-pug-resolver",
       resolveId(id, importer) {

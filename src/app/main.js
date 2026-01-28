@@ -1,13 +1,16 @@
 import "./styles/index.scss";
 
-// Swiper styles
+// Swiper styles.
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 
-import "@widgets/index";
+// Forms initialization.
+import "@features/form/form-init";
 
-import "@features/form/form-init"; // Forms initialization
+// Smooth scroll
+import "@shared/scripts/scroll/leniscroll";
 
-import "@shared/scripts/scroll/leniscroll"; // Smooth scroll
-import "@shared/ui/index";
+const modules = import.meta.glob(["../widgets/**/*.js", "../features/**/*.js", "../shared/ui/**/*.js"], {
+  eager: true,
+});

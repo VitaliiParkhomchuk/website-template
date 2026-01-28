@@ -1,6 +1,3 @@
-include ./src/widgets/index.pug
-include ./src/shared/ui/index.pug
-
 block variable
 
 doctype html
@@ -24,13 +21,10 @@ html(lang="en" data-status="local")
 
     block meta
 
-    body(class= id= id_page data-barba="wrapper" )
-      //- include /assets/svg-sprite/sprite/symbol_sprite.php
-      //- include src/widgets/loader/loader.pug
-
+    body(class= id= id_page)
       block header
 
-      .page__inner(data-scroll-container data-barba="container" data-barba-namespace="home" )
+      main.page__inner(data-scroll-container)
         .page__content
           block content
 

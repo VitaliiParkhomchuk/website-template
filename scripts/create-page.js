@@ -18,6 +18,8 @@ if (fs.existsSync(pageDir)) {
 
 fs.mkdirSync(pageDir, { recursive: true });
 
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+const funcName = `init${capitalize(pageName)}`;
 const pugContent = `extends /../index.pug
 
 block variable
@@ -30,14 +32,14 @@ block meta
   meta(name='description', content='')
 
 block header
-  include /widgets/header/header.pug 
+  +header() 
 
 block content
   h1 Page: ${pageName}
   p This is the content for the ${pageName} page.
 
 block footer
-  include /widgets/footer/footer.pug
+  +footer()
 
 block scripts
   script(type="module" src="/src/pages/${pageName}/${pageName}.js")
@@ -48,7 +50,15 @@ const scssContent = `// Styles for the ${pageName} page
 
 const jsContent = `import './${pageName}.scss';
 
-// JS logic for the ${pageName} page
+function ${funcName}() {
+
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', ${funcName});
+} else {
+  ${funcName}();
+}
 `;
 
 try {
